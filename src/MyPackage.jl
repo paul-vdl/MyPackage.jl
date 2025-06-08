@@ -7,7 +7,14 @@ using FileIO
 export generate_grid
 
 function generate_grid()
-    data = matread(joinpath(@__DIR__, "..", "SyntheticImages500.mat"))
+    matpath = joinpath(@__DIR__, "..", "SyntheticImages500.mat")
+    
+    if !isfile(matpath)
+        @warn "Le fichier MAT est manquant. Fonction ignorée."
+        return nothing
+    end
+
+    data = matread(matpath)
     raw = data["syntheticImages"]
     images = reshape(raw, 32, 32, 500)
 
